@@ -103,7 +103,7 @@ PN532_I2C::PN532_I2C(uint8_t irq, uint8_t reset) {
     @brief  Initializes the PN532 hardware (I2C)
 */
 /**************************************************************************/
-boolean PN532_I2C::init() {
+bool PN532_I2C::init() {
 	Wire.begin();
 	
 	// Reset the PN532  
@@ -189,7 +189,7 @@ uint32_t PN532_I2C::getPN532FirmwareVersion(void) {
 */
 /**************************************************************************/
 // default timeout of one second
-boolean PN532_I2C::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout) {
+bool PN532_I2C::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout) {
 	uint16_t timer = 0;
 	
 	// write the command
@@ -225,7 +225,7 @@ boolean PN532_I2C::sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t ti
 	        the I2C ACK signal)
 */
 /**************************************************************************/
-boolean PN532_I2C::readackframe(void) {
+bool PN532_I2C::readackframe(void) {
 	uint8_t ackbuff[6];
 	
 	wirereaddata(ackbuff, 6);
@@ -368,7 +368,7 @@ void PN532_I2C::wiresendcommand(uint8_t* cmd, uint8_t cmdlen) {
     @param  timeout   Timeout before giving up
 */
 /**************************************************************************/
-boolean PN532_I2C::waitUntilReady(uint16_t timeout) {
+bool PN532_I2C::waitUntilReady(uint16_t timeout) {
 	uint16_t timer = 0;
 	while(wirereadstatus() != PN532_I2C_READY) {
 		if (timeout != 0) {
@@ -382,7 +382,7 @@ boolean PN532_I2C::waitUntilReady(uint16_t timeout) {
 	return true;
 }
 
-boolean PN532_I2C::checkForEZLink(uint8_t * ezlink, float * balance) {
+bool PN532_I2C::checkForEZLink(uint8_t * ezlink, float * balance) {
 	pn532_packetbuffer[0] = PN532_COMMAND_INLISTPASSIVETARGET;
 	pn532_packetbuffer[1] = 1;
 	pn532_packetbuffer[2] = 3;
@@ -580,7 +580,7 @@ boolean PN532_I2C::checkForEZLink(uint8_t * ezlink, float * balance) {
 	return true;
 }
 
-boolean PN532_I2C::checkForEZLink_Transparent(uint8_t * ezlink, float * balance) {
+bool PN532_I2C::checkForEZLink_Transparent(uint8_t * ezlink, float * balance) {
 	static uint8_t checkForEZLink_state = 0;
 	
 	switch (checkForEZLink_state) {

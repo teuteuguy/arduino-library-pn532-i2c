@@ -22,6 +22,13 @@
 
 #include <Wire.h>
 
+// PN532 I2C Shield uses the following pins
+// Analog 4 => I2C
+// Analog 5 => I2C
+// Digital 2 => IRQ
+// Digital 3 => Reset (not sure if really used)
+
+
 // PN532 Commands
 #define PN532_COMMAND_GETFIRMWAREVERSION    (0x02)
 #define PN532_COMMAND_SAMCONFIGURATION      (0x14)
@@ -50,22 +57,22 @@
 class PN532_I2C {
 	public:
 					PN532_I2C(uint8_t pin_irq, uint8_t pin_reset);
-		boolean 	init(void);
-		boolean 	checkForEZLink(uint8_t * ezlink, float * balance);
-		boolean 	checkForEZLink_Transparent(uint8_t * ezlink, float * balance);
+		bool 		init(void);
+		bool	 	checkForEZLink(uint8_t * ezlink, float * balance);
+		bool	 	checkForEZLink_Transparent(uint8_t * ezlink, float * balance);
 		
 	private:
 		uint8_t		_pin_irq, _pin_reset;
 		uint8_t		inListedTag; // Tag number of inlisted tag.
 		
 		uint32_t	getPN532FirmwareVersion(void);
-		boolean		sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout = 1000);
+		bool		sendCommandCheckAck(uint8_t *cmd, uint8_t cmdlen, uint16_t timeout = 1000);
 
-		boolean		readackframe(void);
+		bool		readackframe(void);
 		uint8_t		wirereadstatus(void);
 		void		wirereaddata(uint8_t* buff, uint8_t n);
 		void		wiresendcommand(uint8_t* cmd, uint8_t cmdlen);
-		boolean		waitUntilReady(uint16_t timeout);
+		bool		waitUntilReady(uint16_t timeout);
 };
 
 #endif
